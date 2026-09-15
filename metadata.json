@@ -1,0 +1,6 @@
+{
+  "name": "CampusSOS – Smart Campus Emergency Response System",
+  "description": "Smart campus emergency response system for reporting and managing campus emergencies.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
