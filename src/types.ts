@@ -2,6 +2,14 @@ export type EmergencyType = 'Medical' | 'Fire' | 'Security' | 'Accident';
 
 export type Severity = 'Critical' | 'High' | 'Medium';
 
+export type Priority = 'HIGH PRIORITY' | 'MEDIUM PRIORITY' | 'NORMAL PRIORITY';
+
+export type ResponseTeam =
+  | 'Medical Response Team'
+  | 'Fire & Safety Team'
+  | 'Security Response Team'
+  | 'Medical + Security Team';
+
 export type CampusLocation =
   | 'Hostel 1'
   | 'Hostel 2'
@@ -21,6 +29,9 @@ export interface Emergency {
   incident_code: string;
   emergency_type: EmergencyType;
   severity: Severity;
+  priority?: Priority;
+  assignedTeam?: ResponseTeam | string;
+  assistance?: string;
   location: CampusLocation | string;
   coordinates?: string;
   description: string;

@@ -57,6 +57,38 @@ export const IncidentDetailsModal: React.FC<IncidentDetailsModalProps> = ({
     }
   };
 
+  const getPriorityBadge = () => {
+    const priority = emergency.priority || (
+      emergency.severity === 'Critical'
+        ? 'HIGH PRIORITY'
+        : emergency.severity === 'High'
+        ? 'MEDIUM PRIORITY'
+        : 'NORMAL PRIORITY'
+    );
+
+    switch (priority) {
+      case 'HIGH PRIORITY':
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-red-100 text-red-700 border border-red-200">
+            ⚡ HIGH PRIORITY
+          </span>
+        );
+      case 'MEDIUM PRIORITY':
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-orange-100 text-orange-700 border border-orange-200">
+            MEDIUM PRIORITY
+          </span>
+        );
+      case 'NORMAL PRIORITY':
+      default:
+        return (
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-yellow-100 text-yellow-800 border border-yellow-300">
+            NORMAL PRIORITY
+          </span>
+        );
+    }
+  };
+
   const getStatusBadge = () => {
     switch (emergency.status) {
       case 'PENDING':
@@ -139,9 +171,25 @@ export const IncidentDetailsModal: React.FC<IncidentDetailsModalProps> = ({
 
             <div>
               <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5 sm:mb-1">
+                Priority
+              </span>
+              <div>{getPriorityBadge()}</div>
+            </div>
+
+            <div>
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5 sm:mb-1">
                 Current Status
               </span>
               <div>{getStatusBadge()}</div>
+            </div>
+
+            <div>
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5 sm:mb-1">
+                Assigned Team
+              </span>
+              <span className="text-xs sm:text-sm font-bold text-blue-700 block truncate">
+                👥 {emergency.assignedTeam || 'Medical Response Team'}
+              </span>
             </div>
 
             <div>
@@ -153,6 +201,18 @@ export const IncidentDetailsModal: React.FC<IncidentDetailsModalProps> = ({
               </span>
             </div>
           </div>
+
+          {/* Assistance Required */}
+          {emergency.assistance && (
+            <div className="bg-amber-50/70 border border-amber-200 rounded-xl sm:rounded-2xl p-3 sm:p-4">
+              <span className="text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider block mb-0.5">
+                🆘 Assistance Required
+              </span>
+              <div className="text-xs sm:text-sm font-bold text-amber-950">
+                {emergency.assistance}
+              </div>
+            </div>
+          )}
 
           {/* 📍 Exact Location */}
           <div className="bg-red-50/50 border border-red-200/80 rounded-xl sm:rounded-2xl p-3 sm:p-4">

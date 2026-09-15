@@ -109,7 +109,7 @@ export const MyReports: React.FC<MyReportsProps> = ({
                   <th className="py-3.5 px-4">Incident ID</th>
                   <th className="py-3.5 px-4">Type</th>
                   <th className="py-3.5 px-4">Location</th>
-                  <th className="py-3.5 px-4">Severity</th>
+                  <th className="py-3.5 px-4">Priority / Team</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4 text-right">Action</th>
                 </tr>
@@ -125,7 +125,8 @@ export const MyReports: React.FC<MyReportsProps> = ({
                       {e.incident_code}
                     </td>
                     <td className="py-3.5 px-4 font-medium text-slate-800">
-                      {e.emergency_type}
+                      <div>{e.emergency_type}</div>
+                      <div className="mt-0.5">{getSeverityBadge(e.severity)}</div>
                     </td>
                     <td className="py-3.5 px-4 font-semibold text-slate-800">
                       <div className="flex items-center gap-1">
@@ -139,7 +140,12 @@ export const MyReports: React.FC<MyReportsProps> = ({
                       )}
                     </td>
                     <td className="py-3.5 px-4">
-                      {getSeverityBadge(e.severity)}
+                      <div className="text-xs font-bold text-slate-900">
+                        {e.priority || (e.severity === 'Critical' ? 'HIGH PRIORITY' : e.severity === 'High' ? 'MEDIUM PRIORITY' : 'NORMAL PRIORITY')}
+                      </div>
+                      <div className="text-[11px] font-medium text-blue-700 mt-0.5">
+                        👥 {e.assignedTeam || 'Medical Response Team'}
+                      </div>
                     </td>
                     <td className="py-3.5 px-4">
                       {getStatusBadge(e.status)}
@@ -182,8 +188,16 @@ export const MyReports: React.FC<MyReportsProps> = ({
                     GPS: {e.coordinates}
                   </div>
                 )}
-                <div className="flex items-center justify-between gap-2 mt-2 pt-1 border-t border-slate-100">
-                  <div>{getSeverityBadge(e.severity)}</div>
+                <div className="flex items-center gap-1.5 flex-wrap text-xs text-blue-700 font-semibold mb-2">
+                  <span>👥 {e.assignedTeam || 'Medical Response Team'}</span>
+                </div>
+                <div className="flex items-center justify-between gap-2 mt-2 pt-1.5 border-t border-slate-100">
+                  <div className="flex items-center gap-1.5">
+                    {getSeverityBadge(e.severity)}
+                    <span className="text-[11px] font-bold text-slate-700">
+                      {e.priority || (e.severity === 'Critical' ? 'HIGH PRIORITY' : e.severity === 'High' ? 'MEDIUM PRIORITY' : 'NORMAL PRIORITY')}
+                    </span>
+                  </div>
                   <span className="text-xs font-bold text-red-600 flex items-center gap-0.5">
                     View <ArrowRight className="w-3 h-3" />
                   </span>

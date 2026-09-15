@@ -43,6 +43,38 @@ export const AlertSent: React.FC<AlertSentProps> = ({
     }
   };
 
+  const getPriorityBadge = () => {
+    const priority = emergency.priority || (
+      emergency.severity === 'Critical'
+        ? 'HIGH PRIORITY'
+        : emergency.severity === 'High'
+        ? 'MEDIUM PRIORITY'
+        : 'NORMAL PRIORITY'
+    );
+
+    switch (priority) {
+      case 'HIGH PRIORITY':
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-red-100 text-red-700 border border-red-200">
+            ⚡ HIGH PRIORITY
+          </span>
+        );
+      case 'MEDIUM PRIORITY':
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-orange-100 text-orange-700 border border-orange-200">
+            MEDIUM PRIORITY
+          </span>
+        );
+      case 'NORMAL PRIORITY':
+      default:
+        return (
+          <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-yellow-100 text-yellow-800 border border-yellow-300">
+            NORMAL PRIORITY
+          </span>
+        );
+    }
+  };
+
   const getStatusBadge = () => {
     switch (emergency.status) {
       case 'PENDING':
@@ -140,10 +172,33 @@ export const AlertSent: React.FC<AlertSentProps> = ({
 
           <div className="flex items-center justify-between border-b border-slate-200 pb-2">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
-              Severity
+              Severity & Priority
             </span>
-            <div>{getSeverityBadge()}</div>
+            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {getSeverityBadge()}
+              {getPriorityBadge()}
+            </div>
           </div>
+
+          <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+              👥 Assigned Team
+            </span>
+            <span className="text-xs sm:text-sm font-extrabold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200">
+              {emergency.assignedTeam || 'Medical Response Team'}
+            </span>
+          </div>
+
+          {emergency.assistance && (
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                🆘 Assistance
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-slate-800">
+                {emergency.assistance}
+              </span>
+            </div>
+          )}
 
           <div className="flex items-start justify-between border-b border-slate-200 pb-2 gap-2">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wide shrink-0 mt-0.5">
